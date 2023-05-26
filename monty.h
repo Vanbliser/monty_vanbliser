@@ -49,7 +49,7 @@ void nop(stack_t **stack, unsigned int line_number);
 
 /* HELPER FUNCTIONS */
 void error_handler(int num, char *util, unsigned int line_number);
-void run(char *opcode, unsigned int line_number, stack_t **stack);
+void run(char *opcode, unsigned int line_number, FILE *file, stack_t **stack);
 void format_line(char **line, size_t *len);
 
 #endif

@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
 		if (!file)
 		{
 			error_handler(4, filename, 0);
+			fclose(file);
+			exit(EXIT_FAILURE);
 		}
 		else
 		{
@@ -34,7 +36,7 @@ int main(int argc, char *argv[])
 			{
 				format_line(&line, &len);
 				opcode = strtok(line, " ");/* Split line into tokens*/
-				run(opcode, line_number, &stack);
+				run(opcode, line_number, file, &stack);
 				line_number++;
 			}
 		}
@@ -47,9 +49,10 @@ int main(int argc, char *argv[])
  * run - a function that run an opcode
  * @opcode: operation
  * @line_number: line number
+ * @file: pointer to a FILE
  * @stack: pointer to a stack_t
  */
-void run(char *opcode, unsigned int line_number, stack_t **stack)
+void run(char *opcode, unsigned int line_number, FILE *file, stack_t **stack)
 {
 	if (opcode)
 	{
@@ -84,6 +87,8 @@ void run(char *opcode, unsigned int line_number, stack_t **stack)
 		else
 		{
 			error_handler(2, opcode, line_number);
+			fclose(file);
+			exit(EXIT_FAILURE);
 		}
 	}
 }
@@ -98,6 +103,9 @@ void error_handler(int num, char *util, unsigned int line_number)
 {
 	switch (num)
 	{
+		case 1:
+			fprintf(stderr, "Error: malloc failed\n");
+			break;
 		case 2:
 			fprintf(stderr, "L%u: unknown instruction %s\n", line_number, util);
 			break;
@@ -118,8 +126,14 @@ void error_handler(int num, char *util, unsigned int line_number)
 void format_line(char **line, size_t *len)
 {
 	size_t i = 0, new_line_length = 0;
-	char *tmpline = malloc(sizeof(char) * ((*len) + 1)), *newline;
+	char *tmpline, *newline;
 
+	tmpline = malloc(sizeof(char) * ((*len) + 1));
+	if (tmpline ==	NULL)
+	{
+		error_handler(1, NULL, 0);
+		exit(EXIT_FAILURE);
+	}
 	while (line[0][i] != '\0')
 	{
 		if (isspace(line[0][i]))
@@ -140,7 +154,10 @@ void format_line(char **line, size_t *len)
 	tmpline[new_line_length] = line[0][i];
 	newline = malloc(sizeof(char) * new_line_length);
 	if (newline == NULL)
-		return;
+	{
+		error_handler(1, NULL, 0);
+		exit(EXIT_FAILURE);
+	}
 	strncpy(newline, tmpline, new_line_length);
 	free(tmpline);
 	tmpline = *line;
