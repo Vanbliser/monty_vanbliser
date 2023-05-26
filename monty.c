@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
 		if (!file)
 		{
 			error_handler(4, filename, 0);
-			fclose(file);
 			exit(EXIT_FAILURE);
 		}
 		else
