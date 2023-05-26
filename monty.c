@@ -9,59 +9,141 @@
  */
 int main(int argc, char *argv[])
 {
-	char *filename, *opcode, *value;
+	char *filename, *opcode, *line = NULL;
 	stack_t *stack = NULL;
 	FILE *file;
-	char line[256];
 	unsigned int line_number = 1;
+	size_t len = 0;
 
 	if (argc != 2)
-		print_error_messages(3, NULL, NULL, 0);
-	filename = argv[1];
-	file = fopen(filename, "r");
-	if (!file)
-		print_error_messages(4, NULL, filename, 0);
-	while (fgets(line, sizeof(line), file))
 	{
-		line[strcspn(line, "\n")] = '\0';  /*Remove newline character*/
-		opcode = strtok(line, " ");/* Split line into tokens*/
-		value = strtok(NULL, " ");
-		if (strtok(NULL, " "))
-			print_error_messages(1, NULL, NULL, line_number);
-		if (opcode)
-		{
-			if (strcmp(opcode, "push") == 0)
-				push(&stack, value, line_number);
-			else if (strcmp(opcode, "pall") == 0)
-				pall(&stack, line_number);
-			else
-				print_error_messages(2, file, opcode, line_number);
-		}
-		line_number++;
+		error_handler(3, NULL, 0);
+		exit(EXIT_FAILURE);
 	}
-	fclose(file);
-	return (0);
+	else
+	{
+		filename = argv[1];
+		file = fopen(filename, "r");
+		if (!file)
+		{
+			error_handler(4, filename, 0);
+		}
+		else
+		{
+			while (getline(&line, &len, file) != -1)
+			{
+				format_line(&line, &len);
+				opcode = strtok(line, " ");/* Split line into tokens*/
+				run(opcode, line_number, &stack);
+				line_number++;
+			}
+		}
+		fclose(file);
+		exit(EXIT_SUCCESS);
+	}
 }
 
-void print_error_messages(int num, FILE *file,
-		char *filename_or_opcode, unsigned int line_number)
+/**
+ * run - a function that run an opcode
+ * @opcode: operation
+ * @line_number: line number
+ * @stack: pointer to a stack_t
+ */
+void run(char *opcode, unsigned int line_number, stack_t **stack)
+{
+	if (opcode)
+	{
+		if (strcmp(opcode, "push") == 0)
+		{
+			push(stack, line_number);
+		}
+		else if (strcmp(opcode, "pall") == 0)
+		{
+			pall(stack, line_number);
+		}
+		else if (strcmp(opcode, "pint") == 0)
+		{
+			pint(stack, line_number);
+		}
+		else if (strcmp(opcode, "pop") == 0)
+		{
+			pop(stack, line_number);
+		}
+		else if (strcmp(opcode, "swap") == 0)
+		{
+			swap(stack, line_number);
+		}
+		else if (strcmp(opcode, "add") == 0)
+		{
+			add(stack, line_number);
+		}
+		else if (strcmp(opcode, "nop") == 0)
+		{
+			nop(stack, line_number);
+		}
+		else
+		{
+			error_handler(2, opcode, line_number);
+		}
+	}
+}
+
+/**
+ * error_handler - a function that prints error messages
+ * @num: selects what message to print
+ * @util: pointer to the filename or opcode
+ * @line_number: the line number
+ */
+void error_handler(int num, char *util, unsigned int line_number)
 {
 	switch (num)
 	{
-		case 1:
-			fprintf(stderr, "L%d: usage: push integer\n", line_number);
-			break;
 		case 2:
-			fprintf(stderr, "L%u: unknown instruction %s\n",
-					line_number, filename_or_opcode);
-			fclose(file);
+			fprintf(stderr, "L%u: unknown instruction %s\n", line_number, util);
 			break;
 		case 3:
 			fprintf(stderr, "USAGE: monty file\n");
 			break;
 		case 4:
-			fprintf(stderr, "Error: Can't open file %s\n", filename_or_opcode);
+			fprintf(stderr, "Error: Can't open file %s\n", util);
 			break;
 	}
-	exit(EXIT_FAILURE);
+}
+
+/**
+ * format_line - a function that remove unnesseccary spaces in a line
+ * @line: pointer to the line
+ * @len: length of the line
+ */
+void format_line(char **line, size_t *len)
+{
+	size_t i = 0, new_line_length = 0;
+	char *tmpline = malloc(sizeof(char) * ((*len) + 1)), *newline;
+
+	while (line[0][i] != '\0')
+	{
+		if (isspace(line[0][i]))
+		{
+			if (line[0][i + 1] != '\0')
+				tmpline[new_line_length] = ' ';
+			++new_line_length;
+			while (isspace(line[0][i]))
+				++i;
+		}
+		else
+		{
+			tmpline[new_line_length] = line[0][i];
+			++i;
+			++new_line_length;
+		}
+	}
+	tmpline[new_line_length] = line[0][i];
+	newline = malloc(sizeof(char) * new_line_length);
+	if (newline == NULL)
+		return;
+	strncpy(newline, tmpline, new_line_length);
+	free(tmpline);
+	tmpline = *line;
+	*line = newline;
+	free(tmpline);
 }

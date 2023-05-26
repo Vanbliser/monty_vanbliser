@@ -4,20 +4,25 @@
  * push - Pushes an element to the stack.
  * @stack: Double pointer to the head of the stack.
  * @line_number: The line number being executed from the Monty file.
- * @arg: the value to be pushed
  */
-void push(stack_t **stack, char *arg, unsigned int line_number)
+void push(stack_t **stack, unsigned int line_number)
 {
+	char *arg = strtok(NULL, " ");
 	int value;
 	stack_t *new_node;
 
-	if (!arg || !isdigit((unsigned char)*arg))
+	if (!arg)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
 	value = atoi(arg);
+	if (value < 0)
+	{
+		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		exit(EXIT_FAILURE);
+	}
 
 	new_node = malloc(sizeof(stack_t));
 	if (!new_node)

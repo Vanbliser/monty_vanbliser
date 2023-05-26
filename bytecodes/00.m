@@ -1,3 +1,8 @@
-clean 3
-push 4 3 6
+push    			3
+push 						     1
+
+
+
+
 pall
+pall "eryr"
