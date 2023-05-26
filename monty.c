@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-    char *filename, *opcode;
+    char *filename, *opcode, *value;
     stack_t *stack = NULL;
     FILE *file;
     char line[256];
@@ -29,11 +29,17 @@ int main(int argc, char *argv[])
 
         /* Split line into tokens*/
         opcode = strtok(line, " ");
+		value = strtok(NULL, " ");
+		if (strtok(NULL, " "))
+		{
+        	fprintf(stderr, "L%d: usage: push integer\n", line_number);
+        	exit(EXIT_FAILURE);
+    	}
 
         if (opcode)
         {
             if (strcmp(opcode, "push") == 0)
-                push(&stack, line_number);
+                push(&stack, value, line_number);
             else if (strcmp(opcode, "pall") == 0)
                 pall(&stack, line_number);
             else
