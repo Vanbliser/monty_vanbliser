@@ -5,9 +5,8 @@
  * @stack: Double pointer to the head of the stack.
  * @line_number: The line number being executed from the Monty file.
  */
-void push(stack_t **stack, unsigned int line_number)
+void push(stack_t **stack, char *arg, unsigned int line_number)
 {
-    char *arg = strtok(NULL, " ");
     int value;
     stack_t *new_node;
 
