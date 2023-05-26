@@ -1,4 +1,3 @@
-push 1
-push 2
-push 3
+clean 3
+push 4 3 6
 pall
