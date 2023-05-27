@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	stack_t *stack = NULL;
 	FILE *file;
 	unsigned int line_number = 1;
-	size_t len = 256;
+	size_t len = 1000;
 
 	if (argc != 2)
 	{
