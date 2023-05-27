@@ -9,11 +9,11 @@
  */
 int main(int argc, char *argv[])
 {
-	char *filename, *opcode, *line = NULL;
+	char *filename, *opcode, *line;
 	stack_t *stack = NULL;
 	FILE *file;
 	unsigned int line_number = 1;
-	size_t len = 0;
+	size_t len = 256;
 
 	if (argc != 2)
 	{
@@ -31,10 +31,17 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			while (getline(&line, &len, file) != -1)
+			line = malloc(sizeof(char) * 256);
+			if (line == NULL)
 			{
-				format_line(&line, &len);
-				opcode = strtok(line, " ");/* Split line into tokens*/
+				error_handler(1, NULL, 0);
+				fclose(file);
+				exit(EXIT_FAILURE);
+			}
+			while (fgets(line, 257, file))
+			{
+				format_line(&line, &len); /*Remove unneccessary spaces in line*/
+				opcode = strtok(line, " "); /* Split line into tokens*/
 				run(opcode, line_number, file, &stack);
 				line_number++;
 			}
@@ -133,12 +140,12 @@ void format_line(char **line, size_t *len)
 		error_handler(1, NULL, 0);
 		exit(EXIT_FAILURE);
 	}
+	trim_line(line, len);/* Remove leading and trailing spaces */
 	while (line[0][i] != '\0')
 	{
 		if (isspace(line[0][i]))
 		{
-			if (line[0][i + 1] != '\0')
-				tmpline[new_line_length] = ' ';
+			tmpline[new_line_length] = ' ';
 			++new_line_length;
 			while (isspace(line[0][i]))
 				++i;
@@ -162,4 +169,36 @@ void format_line(char **line, size_t *len)
 	tmpline = *line;
 	*line = newline;
 	free(tmpline);
+}
+
+/**
+ * trim_line - a function that removes leading and trailing spaces
+ * @line: the line to perform the trim on
+ * @len: length of the line
+ */
+void trim_line(char **line, size_t *len)
+{
+	char *newline, *tmp;
+	size_t new_len = 0, i = 0, j = *len - 1, k = 0;
+
+	while (isspace(line[0][i]))
+		++i;
+	while ((isspace(line[0][j]) || line[0][j] == '\0') && j != 0)
+		--j;
+	if (j < i)
+		j = i;
+	new_len = (line[0][i] == '\0') ? 1 : j - i + 2;
+	newline = malloc(sizeof(char) * new_len);
+	if (newline == NULL)
+	{
+		error_handler(1, NULL, 0);
+		exit(EXIT_FAILURE);
+	}
+	if (new_len > 1)
+		for (k = 0; i <= j; ++i, ++k)
+			newline[k] = line[0][i];
+	newline[k] = '\0';
+	tmp = *line;
+	*line = newline;
+	free(tmp);
 }
