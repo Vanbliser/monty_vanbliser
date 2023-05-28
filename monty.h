@@ -35,13 +35,26 @@ typedef struct instruction_s
     void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct global_var - global variables
+ * @push_value: the value to be pushed
+ * @stack: the stack
+ */
+typedef struct global_s
+{
+	int *push_value;
+	stack_t *stack;
+}global_t
+
 /*Global Variables */
-extern instruction_t instruction;
-extern stack_t stack;
-extern size_t value;
-extern unsigned int line_number;
+extern global_t __attribute__((unused)) global;
 
 /* Helper Function Prototypes */
-
+void free_stack(void);
+void monty_usage_error(void);
+void open_file_error(void);
+void malloc_failed_error(void);
+void unknown_instruction_error(unsigned int line_number, char *i);
+void error_cleanup(void);
 
 #endif /* MONTY_H */
