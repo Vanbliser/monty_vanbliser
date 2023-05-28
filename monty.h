@@ -35,4 +35,13 @@ typedef struct instruction_s
     void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/*Global Variables */
+extern instruction_t instruction;
+extern stack_t stack;
+extern size_t value;
+extern unsigned int line_number;
+
+/* Helper Function Prototypes */
+
+
 #endif /* MONTY_H */
