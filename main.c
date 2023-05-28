@@ -103,9 +103,35 @@ int main(int argc, char *argv[])
 	{
 
       		if (strcmp(token[0], "push") == 0)
+		{
                     push(&stack, line_number, token);
+		}
                 else if (strcmp(token[0], "pall") == 0)
-                    pall(&stack);
+		{
+                    pall(&stack, line_number);
+		}
+		else if (strcmp(token[0], "pint") == 0)
+		{
+			pint(&stack, line_number);
+		}
+		else if (strcmp(token[0], "pop") == 0)
+		{
+			pop(&stack, line_number);
+		}
+		else if (strcmp(token[0], "swap") == 0)
+		{
+			swap(&stack, line_number);
+		}
+		else if (strcmp(token[0], "add") == 0)
+		{
+    			add(&stack, line_number);
+		}
+		else if (strcmp(token[0], "nop") == 0)
+		{
+    			nop(&stack, line_number);
+		}
+
+
                 else
 		{
 

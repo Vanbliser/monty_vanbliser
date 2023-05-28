@@ -36,7 +36,7 @@ typedef struct instruction_s
 
 /* Function prototypes */
 void push(stack_t **stack, unsigned int line_number, char **token);
-void pall(stack_t **stack);
+void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
@@ -47,5 +47,6 @@ void nop(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t *stack);
 char **tokenize(char *line);
 void free_tokens(char **tokens);
+int is_numeric(const char *str);
 
 #endif /* MONTY_H */
