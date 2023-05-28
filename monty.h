@@ -50,5 +50,6 @@ void error_handler(int num, char *util, unsigned int line_number);
 void run(char *opcode, unsigned int line_number, FILE *file, stack_t **stack);
 void format_line(char **line, size_t *len);
 void trim_line(char **line, size_t *len);
+char *readline(char **line, size_t *len, FILE *file);
 
 #endif

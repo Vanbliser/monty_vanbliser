@@ -9,11 +9,11 @@
  */
 int main(int argc, char *argv[])
 {
-	char *filename, *opcode, *line;
+	char *filename, *opcode, *line = NULL;
 	stack_t *stack = NULL;
 	FILE *file;
 	unsigned int line_number = 1;
-	size_t len = 1000;
+	size_t len;
 
 	if (argc != 2)
 	{
@@ -31,24 +31,77 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			line = malloc(sizeof(char) * 256);
-			if (line == NULL)
-			{
-				error_handler(1, NULL, 0);
-				fclose(file);
-				exit(EXIT_FAILURE);
-			}
-			while (fgets(line, 257, file))
+			while (readline(&line, &len, file))
 			{
 				format_line(&line, &len); /*Remove unneccessary spaces in line*/
-				opcode = strtok(line, " "); /* Split line into tokens*/
-				run(opcode, line_number, file, &stack);
-				line_number++;
+				if (strlen(line) > 0)
+				{
+					opcode = strtok(line, " "); /* Split line into tokens*/
+					run(opcode, line_number, file, &stack);
+					line_number++;
+				}
 			}
 		}
 		fclose(file);
 		exit(EXIT_SUCCESS);
 	}
+}
+
+/**
+ * readline - read line by line from a file stream
+ * @line: store the read line here
+ * @len: store the length of the line here
+ * @file: the file stream to read from
+ *
+ * Return: pointer to the line
+ */
+char *readline(char **line, size_t *len, FILE *file)
+{
+	static int tmp3 = 1;
+	size_t size = 1;
+	char *tmp, *tmp1, *tmp2;
+
+	tmp1 = malloc(1);
+	tmp1[0] = '\0';
+	tmp2 = malloc(256);
+	if (tmp2 == NULL)
+	{
+		error_handler(1, NULL, 0);
+		exit(EXIT_FAILURE);
+	}
+	if (tmp3)
+	{
+		while (fgets(tmp2, 256, file))
+		{
+			size = size + strlen(tmp2);
+			tmp = tmp1;
+			tmp1 = malloc(size);
+			if (tmp1 == NULL)
+			{
+				error_handler(1, NULL, 0);
+				exit(EXIT_FAILURE);
+			}
+			memcpy(tmp1, tmp, strlen(tmp));
+			strcat(tmp1, tmp2);
+			free(tmp);
+			format_line(&tmp1, &size);
+			if (strchr(tmp2, '\n'))
+			{
+				if(*line)
+					free(*line);
+				*line = tmp1;
+				*len = size - 1;
+				return (*line);
+			}
+		}
+		tmp3 = 0;
+		if (*line)
+			free(*line);
+		*line = tmp1;
+		*len = size - 1;
+		return (*line);
+	}
+	return (NULL);
 }
 
 /**
