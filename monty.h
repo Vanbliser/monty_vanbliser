@@ -1,6 +1,8 @@
 #ifndef MONTY_H
 #define MONTY_H
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,7 +52,7 @@ typedef struct memlist
 } memlist_t;
 
 /*Global Variables */
-extern int push_value;
+extern char *push_value;
 
 /* Helper Function Prototypes */
 void free_stack(stack_t *stack);
@@ -63,8 +65,5 @@ void unknown_instruction_error(unsigned int line_number, char *i, stack_t *stack
 void error_cleanup(void);
 void trim_line(char **line, size_t *len, memlist_t **memlist);
 void reduce_multispaces_to_one(char **line, size_t *len, memlist_t **memlist);
-char *concat(char **tmp1, char **tmp2, size_t *size, 
-		size_t *size_tmp2, memlist_t **memlist);
-char *readline(char **line, size_t *len, FILE *file);
 
 #endif /* MONTY_H */
