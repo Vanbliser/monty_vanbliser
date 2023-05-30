@@ -12,7 +12,7 @@ void pall(stack_t **stack, unsigned int __attribute__((unused)) line_number)
 	current = *stack;
 	while (current)
 	{
-		printf("%d\n", current->n);
+		fprintf(stdout, "%d\n", current->n);
 		current = current->next;
 	}
 }
