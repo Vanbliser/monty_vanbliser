@@ -29,6 +29,8 @@ int main(int argc, char **argv)
 		line_number++;
 		reduce_multispaces_to_one(&(c.line), &len);
 		trim_line(&(c.line), &len);
+		if (((c.line)[0]) == '#')
+			continue;
 		opcode = strtok(c.line, " ");
 		if (opcode)
 			while (current)
