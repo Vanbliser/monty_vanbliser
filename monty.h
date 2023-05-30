@@ -24,14 +24,29 @@ typedef struct stack_s
 	struct stack_s *prev;
 	struct stack_s *next;
 } stack_t;
-
+/**
+ * struct bus_s - variables -args, file, line content
+ * @arg: value
+ * @file: pointer to monty file
+ * @content: line content
+ * @lifi: flag change stack <-> queue
+ * Description: carries values through the program
+ */
+typedef struct bus_s
+{
+	char *arg;
+	FILE *file;
+	char *content;
+	int lifi;
+}  bus_t;
+extern bus_t bus;
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
  * @f: function to handle the opcode
  *
  * Description: opcode and its function
- * for stack, queues, LIFO, FIFO
+ * for stack, queues, LIFO, FIFO Holberton project
  */
 typedef struct instruction_s
 {
@@ -85,6 +100,13 @@ extern cleanup_t c;
 /* Operations Function Prototypes */
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
+void pop(stack_t **stack, unsigned int line_number);
+void pstr(stack_t **stack, unsigned int line_number);
+void rotl(stack_t **stack, unsigned int line_number);
+void rotr(stack_t **stack, unsigned int line_number);
+void sub(stack_t **stack, unsigned int line_number);
+void swap(stack_t **stack, unsigned int line_number);
+
 
 /* Helper Function Prototypes */
 
@@ -92,24 +114,35 @@ void pall(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t *stack);
 void addtomemlist(memlist_t **head, void *ptr);
 void free_memlist(memlist_t *head);
+
 /* error_handling.c */
 void monty_usage_error(void);
 void open_file_error(char *file);
 void malloc_failed_error(memlist_t *memlist);
 void unknown_instruction_error(unsigned int line_num, char *i);
 void cleanup();
+
 /* line_formatting.c */
 void reduce_multispaces_to_one(char **line, size_t *len);
 void trim_line(char **line, size_t *len);
+
 /* push.c */
 void push_error_handler(unsigned int line_number);
 void addtostack(stack_t **head, const int n);
+
+/*instructions*/
 instruction_t push_instruction(void);
+instruction_t pop_instruction(void);
+instruction_t pstr_instruction(void);
+instruction_t pall_instruction(void);
+instruction_t rotl_instruction(void);
+instruction_t sub_instruction(void);
+instruction_t swap_instruction(void)
+
+
 /* init.c */
 void init(instructionlist_t **inst_list);
 void addinstruction(instructionlist_t **inst_list, instruction_t inst);
 void destroy_init(instructionlist_t *head);
-/* pall.c */
-instruction_t pall_instruction(void);
 
 #endif /* MONTY_H */

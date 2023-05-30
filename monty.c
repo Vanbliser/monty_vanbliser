@@ -3,12 +3,12 @@
 cleanup_t c = {NULL, NULL, NULL, NULL};
 
 /**
- * main - Begin execution
- * @argc: number of arugument passed
- * @argv: array of arguments
- *
- * Return: 0 on successful
- */
+* main - monty code interpreter
+* @argc: number of arguments
+* @argv: monty file location
+* Return: 0 on success
+*/
+
 int main(int argc, char **argv)
 {
 	char *opcode = NULL;

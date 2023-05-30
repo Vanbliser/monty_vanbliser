@@ -8,6 +8,13 @@ void init(instructionlist_t **inst_list)
 {
 	addinstruction(inst_list, push_instruction());
 	addinstruction(inst_list, pall_instruction());
+	addinstruction(inst_list, pop_instruction());
+	addinstruction(inst_list, pstr_instruction());
+	addinstruction(inst_list, rotl_instruction());
+	addinstruction(inst_list, sub_instruction());
+	addinstruction(inst_list, swap_instruction());
+
+	
 }
 
 /**
