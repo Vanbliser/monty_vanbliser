@@ -21,7 +21,7 @@ void push(stack_t __attribute__((unused)) **stack, unsigned int line_number)
 		push_error_handler(stack, line_number);
 
 	/* check if s is a valid int number */
-	if (!((s > INT_MIN) && (s < INT_MAX)))
+	if (!((s >= INT_MIN) && (s <= INT_MAX)))
 		push_error_handler(stack, line_number);
 
 	addtostack(stack, atoi(value));
