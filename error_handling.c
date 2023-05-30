@@ -4,7 +4,6 @@
  * unknown_instruction_error - print error message to stdout and exit failure
  * @line_num: line number where the error occurred
  * @i: the unknown instruction
- * @stack: stack to be freed
  */
 void unknown_instruction_error(unsigned int line_num, char *i)
 {
@@ -50,7 +49,7 @@ void monty_usage_error(void)
  * It makes use of global variable cleanup of type cleanup_t to access
  * their pointers
  */
-void cleanup()
+void cleanup(void)
 {
 	if (c.file)
 		fclose(c.file);

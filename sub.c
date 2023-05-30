@@ -25,8 +25,8 @@ void sub(stack_t **stack, unsigned int line_number)
 
 instruction_t sub_instruction(void)
 {
-    instruction_t sub_inst;
-    sub_inst.opcode = "sub";
-    sub_inst.f = pall;
-    return sub_inst;
+	instruction_t sub_inst;
+	sub_inst.opcode = "sub";
+	sub_inst.f = pall;
+	return sub_inst;
 }

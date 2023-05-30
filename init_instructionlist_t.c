@@ -13,8 +13,6 @@ void init(instructionlist_t **inst_list)
 	addinstruction(inst_list, rotl_instruction());
 	addinstruction(inst_list, sub_instruction());
 	addinstruction(inst_list, swap_instruction());
-
-	
 }
 
 /**

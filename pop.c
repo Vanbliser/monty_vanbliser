@@ -7,20 +7,23 @@
  */
 void pop(stack_t **stack, unsigned int line_number)
 {
-    stack_t *tmp;
-    if (*stack == NULL)
-    {
-        fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
-	/*free_stack(*stack);*/
-        exit(EXIT_FAILURE);
-    }
+	stack_t *tmp;
+	if (*stack == NULL)
+		pop_error_handler(line_number);
 
-    tmp = *stack;
-    *stack = (*stack)->next;
-    if (*stack != NULL)
-	    (*stack)->prev =NULL;
+	tmp = *stack;
+	*stack = (*stack)->next;
+	if (*stack != NULL)
+		(*stack)->prev = NULL;
 
-    free(tmp);
+	free(tmp);
+}
+
+void pop_error_handler(unsigned int line_number)
+{
+	fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
+	cleanup();
+	exit(EXIT_FAILURE);
 }
 
 /*pop instruction*/

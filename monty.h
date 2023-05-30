@@ -92,7 +92,7 @@ typedef struct cleanup
 	FILE *file;
 	char *line;
 	stack_t *stack;
-	instructionlist_t * instructionlist;
+	instructionlist_t *instructionlist;
 } cleanup_t;
 
 extern cleanup_t c;
@@ -120,7 +120,7 @@ void monty_usage_error(void);
 void open_file_error(char *file);
 void malloc_failed_error(memlist_t *memlist);
 void unknown_instruction_error(unsigned int line_num, char *i);
-void cleanup();
+void cleanup(void);
 
 /* line_formatting.c */
 void reduce_multispaces_to_one(char **line, size_t *len);
@@ -130,6 +130,9 @@ void trim_line(char **line, size_t *len);
 void push_error_handler(unsigned int line_number);
 void addtostack(stack_t **head, const int n);
 
+/* pop.c */
+void pop_error_handler(unsigned int line_number);
+
 /*instructions*/
 instruction_t push_instruction(void);
 instruction_t pop_instruction(void);
@@ -137,8 +140,7 @@ instruction_t pstr_instruction(void);
 instruction_t pall_instruction(void);
 instruction_t rotl_instruction(void);
 instruction_t sub_instruction(void);
-instruction_t swap_instruction(void)
-
+instruction_t swap_instruction(void);
 
 /* init.c */
 void init(instructionlist_t **inst_list);

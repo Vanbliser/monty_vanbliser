@@ -49,7 +49,6 @@ void addtostack(stack_t **head, const int n)
 
 /**
  * push_error_handler - push error hander function
- * @stack: the stack
  * @line_number: line number of the operation
  */
 void push_error_handler(unsigned int line_number)

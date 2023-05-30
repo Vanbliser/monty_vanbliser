@@ -7,27 +7,27 @@
  */
 void pstr(stack_t **stack, unsigned int __attribute__((unused)) line_number)
 {
-    stack_t *current;
-    current = *stack;
+	stack_t *current;
+	current = *stack;
 
-    (void)line_number;
+	(void)line_number;
 
-    while (current && current->n >= 0 && current->n <= 127)
-    {
-        /*if (current->n == '\0')*/  
-        printf("%c", current->n);
-        current = current->next;
-    }
+	while (current && current->n >= 0 && current->n <= 127)
+	{
+		/*if (current->n == '\0')*/  
+		printf("%c", current->n);
+		current = current->next;
+	}
 
-    printf("\n");
+	printf("\n");
 }
 
 /*pstr instruction*/
 instruction_t pstr_instruction(void)
 {
-    instruction_t pstr_inst;
+	instruction_t pstr_inst;
 
-    pstr_inst.opcode = "pstr";
-    pstr_inst.f = pstr;
-    return (pstr_inst);
+	pstr_inst.opcode = "pstr";
+	pstr_inst.f = pstr;
+	return (pstr_inst);
 }
