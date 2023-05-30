@@ -48,7 +48,7 @@ void free_memlist(memlist_t __attribute__ ((unused)) *head)
  *
  * Return: the address of the new element, or NULL if it failed
  */
-void addtomemlist(memlist_t __attribute__ ((unused)) **head, void __attribute__ ((unused)) *ptr)
+void addtomemlist(memlist_t **head, void *ptr)
 {
 	memlist_t *new;
 

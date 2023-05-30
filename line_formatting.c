@@ -15,7 +15,7 @@ void reduce_multispaces_to_one(char **line, size_t *len)
 
 	tmpline = malloc(sizeof(char) * ((*len) + 1));
 	if (tmpline ==	NULL)
-		malloc_failed_error(memlist);
+		malloc_failed_error(NULL);
 	addtomemlist(&memlist, tmpline);
 	while (line[0][i] != '\0')
 	{
@@ -37,13 +37,11 @@ void reduce_multispaces_to_one(char **line, size_t *len)
 	newline = malloc(sizeof(char) * (new_line_length + 1));
 	if (newline == NULL)
 		malloc_failed_error(memlist);
-	addtomemlist(&memlist, newline);
 	strncpy(newline, tmpline, new_line_length + 1);
-	free(tmpline);
 	tmpline = *line;
 	*line = newline;
 	*len = new_line_length;
-	/*free_memlist(memlist);*/
+	free_memlist(memlist);
 	free(tmpline);
 }
 
