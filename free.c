@@ -24,7 +24,7 @@ void free_stack(stack_t *stack)
  * free_memlist - a function that frees a memlist_t list.
  * @head: pointer the memlist
  */
-void free_memlist(memlist_t __attribute__ ((unused)) *head)
+void free_memlist(memlist_t *head)
 {
 	memlist_t *prev;
 
@@ -37,6 +37,7 @@ void free_memlist(memlist_t __attribute__ ((unused)) *head)
 			free(prev->ptr);
 			free(prev);
 		}
+		free(head->ptr);
 		free(head);
 	}
 }

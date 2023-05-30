@@ -13,9 +13,10 @@ void reduce_multispaces_to_one(char **line, size_t *len)
 	char *tmpline, *newline;
 	memlist_t *memlist = NULL;
 
+	addtomemlist(&memlist, *line);
 	tmpline = malloc(sizeof(char) * ((*len) + 1));
 	if (tmpline ==	NULL)
-		malloc_failed_error(NULL);
+		malloc_failed_error(memlist);
 	addtomemlist(&memlist, tmpline);
 	while (line[0][i] != '\0')
 	{
@@ -38,11 +39,9 @@ void reduce_multispaces_to_one(char **line, size_t *len)
 	if (newline == NULL)
 		malloc_failed_error(memlist);
 	strncpy(newline, tmpline, new_line_length + 1);
-	tmpline = *line;
 	*line = newline;
 	*len = new_line_length;
 	free_memlist(memlist);
-	free(tmpline);
 }
 
 /**
@@ -52,10 +51,13 @@ void reduce_multispaces_to_one(char **line, size_t *len)
  */
 void trim_line(char **line, size_t *len)
 {
-	char *newline, *tmp;
+	char *newline;
 	size_t new_len = 0, i = 0, j = *len - 1, k = 0;
 	memlist_t *memlist = NULL;
 
+	if (strlen(*line) == 1)
+		return;
+	addtomemlist(&memlist, *line);
 	while (isspace(line[0][i]))
 		++i;
 	while ((isspace(line[0][j]) || line[0][j] == '\0') && j != 0)
@@ -66,14 +68,11 @@ void trim_line(char **line, size_t *len)
 	newline = malloc(sizeof(char) * new_len);
 	if (newline == NULL)
 		malloc_failed_error(memlist);
-	addtomemlist(&memlist, newline);
 	if (new_len > 1)
 		for (k = 0; i <= j; ++i, ++k)
 			newline[k] = line[0][i];
 	newline[k] = '\0';
-	tmp = *line;
 	*line = newline;
 	*len = new_len - 1;
 	free_memlist(memlist);
-	free(tmp);
 }

@@ -1,5 +1,7 @@
 #include "monty.h"
 
+cleanup_t c = {NULL, NULL, NULL, NULL};
+
 /**
  * main - Begin execution
  * @argc: number of arugument passed
@@ -9,43 +11,39 @@
  */
 int main(int argc, char **argv)
 {
-	FILE *file;
-	char *line = NULL, *opcode = NULL;
+	char *opcode = NULL;
 	size_t len = 0;
-	stack_t *stack = NULL;
 	ssize_t nread;
 	unsigned int line_number = 0;
-	instructionlist_t *instructionlist = NULL, *head;
+	instructionlist_t *current;
 
 	if (argc != 2)
 		monty_usage_error();
-	file = fopen(argv[1], "r");
-	if (file == NULL)
+	c.file = fopen(argv[1], "r");
+	if (c.file == NULL)
 		open_file_error(argv[1]);
-	init(&instructionlist);	/* initialize the instruction list */
-	head = instructionlist;
-	while ((nread = getline(&line, &len, file)) != -1)
+	init(&(c.instructionlist));	/* initialize the instruction list */
+	current = c.instructionlist;
+	while ((nread = getline(&(c.line), &len, c.file)) != -1)
 	{
 		line_number++;
-		reduce_multispaces_to_one(&line, &len);
-		trim_line(&line, &len);
-		opcode = strtok(line, " ");
+		reduce_multispaces_to_one(&(c.line), &len);
+		trim_line(&(c.line), &len);
+		opcode = strtok(c.line, " ");
 		if (opcode)
-			while (instructionlist)
+			while (current)
 			{
-				if (strcmp(opcode, instructionlist->instruction.opcode) == 0)
+				if (strcmp(opcode, current->instruction.opcode) == 0)
 				{
-					instructionlist->instruction.f(&stack, line_number);
+					current->instruction.f(&(c.stack), line_number);
 					break;
 				}
-				instructionlist = instructionlist->next;
-				if (instructionlist == NULL)
-					unknown_instruction_error(line_number, opcode, stack);
+				current = current->next;
+				if (current == NULL)
+					unknown_instruction_error(line_number, opcode);
 			}
-		instructionlist = head;
+		current = c.instructionlist; /* return current to the start */
 	}
-	fclose(file);
-	free_stack(stack);
-	destroy_init(instructionlist);
+	cleanup();
 	exit(EXIT_SUCCESS);
 }

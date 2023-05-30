@@ -28,8 +28,6 @@ void addinstruction(instructionlist_t **inst_list, instruction_t inst)
 	new->instruction = inst;
 	new->prev = NULL;
 	new->next = *inst_list;
-	if (*inst_list != NULL)
-		(*inst_list)->prev = new;
 	*inst_list = new;
 }
 

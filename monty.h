@@ -65,6 +65,23 @@ typedef struct memlist
 	struct memlist *next;
 } memlist_t;
 
+/**
+ * struct cleanup - a structure that keeps memory that requires to be freed
+ * @file: FILE stream to be closed
+ * @line: line to be freed
+ * @stack: stack to be freed
+ * @instructionlist: instructionlist_t to be freed
+ */
+typedef struct cleanup
+{
+	FILE *file;
+	char *line;
+	stack_t *stack;
+	instructionlist_t * instructionlist;
+} cleanup_t;
+
+extern cleanup_t c;
+
 /* Operations Function Prototypes */
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
@@ -79,12 +96,13 @@ void free_memlist(memlist_t *head);
 void monty_usage_error(void);
 void open_file_error(char *file);
 void malloc_failed_error(memlist_t *memlist);
-void unknown_instruction_error(unsigned int line_num, char *i, stack_t *stack);
+void unknown_instruction_error(unsigned int line_num, char *i);
+void cleanup();
 /* line_formatting.c */
 void reduce_multispaces_to_one(char **line, size_t *len);
 void trim_line(char **line, size_t *len);
 /* push.c */
-void push_error_handler(stack_t **stack, unsigned int line_number);
+void push_error_handler(unsigned int line_number);
 void addtostack(stack_t **head, const int n);
 instruction_t push_instruction(void);
 /* init.c */
