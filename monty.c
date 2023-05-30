@@ -1,52 +1,51 @@
 #include "monty.h"
 
-int main(int argc, char *argv[])
+/**
+ * main - Begin execution
+ * @argc: number of arugument passed
+ * @argv: array of arguments
+ *
+ * Return: 0 on successful
+ */
+int main(int argc, char **argv)
 {
-    char *filename, *opcode;
-    stack_t *stack = NULL;
-    FILE *file;
-    char line[256];
-    unsigned int line_number = 1;
+	FILE *file;
+	char *line = NULL, *opcode = NULL;
+	size_t len = 0;
+	stack_t *stack = NULL;
+	ssize_t nread;
+	unsigned int line_number = 0;
+	instructionlist_t *instructionlist = NULL, *head;
 
-    if (argc != 2)
-    {
-        fprintf(stderr, "USAGE: monty file\n");
-        return EXIT_FAILURE;
-    }
-
-    filename = argv[1];
-    file = fopen(filename, "r");
-    if (!file)
-    {
-        fprintf(stderr, "Error: Can't open file %s\n", filename);
-        return EXIT_FAILURE;
-    }
-
-       
-    while (fgets(line, sizeof(line), file))
-    {
-        line[strcspn(line, "\n")] = '\0';  /*Remove newline character*/
-
-        /* Split line into tokens*/
-        opcode = strtok(line, " ");
-
-        if (opcode)
-        {
-            if (strcmp(opcode, "push") == 0)
-                push(&stack, line_number);
-            else if (strcmp(opcode, "pall") == 0)
-                pall(&stack, line_number);
-            else
-            {
-                fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
-                fclose(file);
-                return EXIT_FAILURE;
-            }
-        }
-
-        line_number++;
-    }
-
-    fclose(file);
-    return 0;
+	if (argc != 2)
+		monty_usage_error();
+	file = fopen(argv[1], "r");
+	if (file == NULL)
+		open_file_error(argv[1]);
+	init(&instructionlist);	/* initialize the instruction list */
+	head = instructionlist;
+	while ((nread = getline(&line, &len, file)) != -1)
+	{
+		line_number++;
+		reduce_multispaces_to_one(&line, &len);
+		trim_line(&line, &len);
+		opcode = strtok(line, " ");
+		if (opcode)
+			while (instructionlist)
+			{
+				if (strcmp(opcode, instructionlist->instruction.opcode) == 0)
+				{
+					instructionlist->instruction.f(&stack, line_number);
+					break;
+				}
+				instructionlist = instructionlist->next;
+				if (instructionlist == NULL)
+					unknown_instruction_error(line_number, opcode, stack);
+			}
+		instructionlist = head;
+	}
+	fclose(file);
+	free_stack(stack);
+	destroy_init(instructionlist);
+	exit(EXIT_SUCCESS);
 }

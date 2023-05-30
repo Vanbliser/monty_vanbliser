@@ -1,16 +1,32 @@
 #include "monty.h"
 
 /**
- * pall - Prints all the values on the stack, starting from the top.
- * @stack: Double pointer to the head of the stack.
- * @line_number: The line number being executed from the Monty file.
+ * pall - Function to print all values on the stack
+ * @stack: the stack
+ * @line_number: line number of the operation
  */
-void pall(stack_t **stack, unsigned int line_number)
+void pall(stack_t **stack, unsigned int __attribute__((unused)) line_number)
 {
-    stack_t *current = NULL;
-    (void)line_number;    
-    
-    for (current = *stack; current != NULL; current = current->next)
-	    printf("%d\n", current->n);
-    
+	stack_t *current;
+
+	current = *stack;
+	while (current)
+	{
+		printf("%d\n", current->n);
+		current = current->next;
+	}
+}
+
+/**
+ * pall_instruction - pall instruction_t
+ *
+ * Return: pall instruction_t
+ */
+instruction_t pall_instruction(void)
+{
+	instruction_t pall_inst;
+
+	pall_inst.opcode = "pall";
+	pall_inst.f = pall;
+	return (pall_inst);
 }

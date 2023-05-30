@@ -1,37 +1,79 @@
 #include "monty.h"
 
 /**
- * push - Pushes an element to the stack.
- * @stack: Double pointer to the head of the stack.
- * @line_number: The line number being executed from the Monty file.
+ * push - Function to push an element to the stack
+ * @stack: the stack
+ * @line_number: line number of the operation
  */
-void push(stack_t **stack, unsigned int line_number)
+void push(stack_t __attribute__((unused)) **stack, unsigned int line_number)
 {
-    char *arg = strtok(NULL, " ");
-    int value;
-    stack_t *new_node;
+	long int s;
+	char *endptr = NULL, *value;
 
-    if (!arg || !isdigit((unsigned char)*arg))
-    {
-        fprintf(stderr, "L%d: usage: push integer\n", line_number);
-        exit(EXIT_FAILURE);
-    }
+	value = strtok(NULL, " ");
+	if (!value)
+		push_error_handler(stack, line_number);
 
-    value = atoi(arg);
+	s = strtol(value, &endptr, 10);
 
-    new_node = malloc(sizeof(stack_t));
-    if (!new_node)
-    {
-        fprintf(stderr, "Error: malloc failed\n");
-        exit(EXIT_FAILURE);
-    }
+	/* check if value is a valid long int number */
+	if (!((*value != '\0') && (*endptr == '\0')))
+		push_error_handler(stack, line_number);
 
-    new_node->n = value;
-    new_node->prev = NULL;
-    new_node->next = *stack;
+	/* check if s is a valid int number */
+	if (!((s >= INT_MIN) && (s <= INT_MAX)))
+		push_error_handler(stack, line_number);
 
-    if (*stack != NULL)
-        (*stack)->prev = new_node;
+	addtostack(stack, atoi(value));
+}
 
-    *stack = new_node;
+/**
+ * addtostack - a fuction the adds to stack
+ * @head: double pointer to the stack
+ * @n: integer to add to stack
+ */
+void addtostack(stack_t **head, const int n)
+{
+	stack_t *new;
+	memlist_t *memlist;
+
+	if (head == NULL)
+		exit(EXIT_FAILURE);
+	new = malloc(sizeof(stack_t));
+	if (new == NULL)
+		malloc_failed_error(NULL);
+	addtomemlist(&memlist, new);
+	new->n = n;
+	new->prev = NULL;
+	new->next = *head;
+	if (*head != NULL)
+		(*head)->prev = new;
+	*head = new;
+	free_memlist(memlist);
+}
+
+/**
+ * push_error_handler - push error hander function
+ * @stack: the stack
+ * @line_number: line number of the operation
+ */
+void push_error_handler(stack_t **stack, unsigned int line_number)
+{
+	fprintf(stderr, "L%u: usage: push integer\n", line_number);
+	free_stack(*stack);
+	exit(EXIT_FAILURE);
+}
+
+/**
+ * push_instruction - push instruction_t
+ *
+ * Return: push instruction_t
+ */
+instruction_t push_instruction(void)
+{
+	instruction_t push_inst;
+
+	push_inst.opcode = "push";
+	push_inst.f = push;
+	return (push_inst);
 }
