@@ -8,8 +8,6 @@
  */
 void _div(stack_t **stack, unsigned int line_number)
 {
-	int result;
-
 	if (*stack == NULL || (*stack)->next == NULL)
 	{
 		fprintf(stderr, "L%u: can't div, stack too short\n", line_number);
@@ -24,9 +22,8 @@ void _div(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	result = (*stack)->next->n / (*stack)->n;
+	(*stack)->next->n /= (*stack)->n;
 	pop(stack, line_number); /* Remove the top element*/
-	(*stack)->n = result;	 /* Update the second top element with the result*/
 }
 
 /**
@@ -38,7 +35,7 @@ instruction_t _div_instruction(void)
 {
 	instruction_t _div_inst;
 
-	_div_inst.opcode = "_div";
+	_div_inst.opcode = "div";
 	_div_inst.f = _div;
 	return (_div_inst);
 }
