@@ -52,6 +52,10 @@ echo -e "filename=>bytecodes/11.m"
 ./monty bytecodes/11.m
 echo -e "=============\n"
 
+echo -e "filename=>bytecodes/12.m"
+./monty bytecodes/12.m
+echo -e "=============\n"
+
 echo -e "filename=>bytecodes/2invalid_inst"
 ./monty bytecodes/2invalid_inst
 echo -e "=============\n"

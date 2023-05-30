@@ -20,9 +20,9 @@
  */
 typedef struct stack_s
 {
-    int n;
-    struct stack_s *prev;
-    struct stack_s *next;
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
 } stack_t;
 
 /**
@@ -35,35 +35,63 @@ typedef struct stack_s
  */
 typedef struct instruction_s
 {
-    char *opcode;
-    void (*f)(stack_t **stack, unsigned int line_number);
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+/**
+ * struct instructionlist_s - doubly linked list of instruction_t
+ * @instruction: the instruction
+ * @prev: previous instruction
+ * @next: next instruction
+ */
+typedef struct instructionlist_s
+{
+	instruction_t instruction;
+	struct instructionlist_s *next;
+	struct instructionlist_s *prev;
+} instructionlist_t;
 
 /**
  * struct memlist - a list that keeps track of dynamically allocated memory
  * @ptr: pointer to the allocated memory
  * @next: the next memory in the list
+ * @prev: the previuos memory in the list
  */
 typedef struct memlist
 {
-    char *ptr;
+	void *ptr;
 	struct memlist *prev;
-    struct memlist *next;
+	struct memlist *next;
 } memlist_t;
 
-/*Global Variables */
-extern char *push_value;
+/* Operations Function Prototypes */
+void push(stack_t **stack, unsigned int line_number);
+void pall(stack_t **stack, unsigned int line_number);
 
 /* Helper Function Prototypes */
+
+/* free.c */
 void free_stack(stack_t *stack);
-memlist_t *addtomemlist(memlist_t **head, char *ptr);
+void addtomemlist(memlist_t **head, void *ptr);
 void free_memlist(memlist_t *head);
+/* error_handling.c */
 void monty_usage_error(void);
 void open_file_error(char *file);
 void malloc_failed_error(memlist_t *memlist);
-void unknown_instruction_error(unsigned int line_number, char *i, stack_t *stack);
-void error_cleanup(void);
-void trim_line(char **line, size_t *len, memlist_t **memlist);
-void reduce_multispaces_to_one(char **line, size_t *len, memlist_t **memlist);
+void unknown_instruction_error(unsigned int line_num, char *i, stack_t *stack);
+/* line_formatting.c */
+void reduce_multispaces_to_one(char **line, size_t *len);
+void trim_line(char **line, size_t *len);
+/* push.c */
+void push_error_handler(stack_t **stack, unsigned int line_number);
+void addtostack(stack_t **head, const int n);
+instruction_t push_instruction(void);
+/* init.c */
+void init(instructionlist_t **inst_list);
+void addinstruction(instructionlist_t **inst_list, instruction_t inst);
+void destroy_init(instructionlist_t *head);
+/* pall.c */
+instruction_t pall_instruction(void);
 
 #endif /* MONTY_H */
