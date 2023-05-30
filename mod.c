@@ -7,6 +7,13 @@
  */
 void mod(stack_t **stack, unsigned int line_number)
 {
+	if ((*stack)->n == 0)
+	{
+		fprintf(stderr, "L%u: division by zero\n", line_number);
+		cleanup();
+		exit(EXIT_FAILURE);
+	}
+
 	if (*stack && (*stack)->next)
 	{
 		(*stack)->next->n %= (*stack)->n;
