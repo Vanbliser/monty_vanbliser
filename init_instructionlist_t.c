@@ -19,6 +19,7 @@ void init(instructionlist_t **inst_list)
 	addinstruction(inst_list, nop_instruction());
 	addinstruction(inst_list, pchar_instruction());
 	addinstruction(inst_list, pint_instruction());
+	addinstruction(inst_list, mod_instruction());
 }
 
 /**

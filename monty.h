@@ -112,6 +112,7 @@ void pint(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 void pchar(stack_t **stack, unsigned int line_number);
 void _div(stack_t **stack, unsigned int line_number);
+void mod(stack_t **stack, unsigned int line_number);
 
 
 /* Helper Function Prototypes */
@@ -158,6 +159,7 @@ instruction_t mul_instruction(void);
 instruction_t nop_instruction(void);
 instruction_t pchar_instruction(void);
 instruction_t pint_instruction(void);
+instruction_t mod_instruction(void);
 
 /* init.c */
 void init(instructionlist_t **inst_list);
