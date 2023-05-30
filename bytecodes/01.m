@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 push 0
 push 1
 push 2
@@ -7,4 +8,11 @@ push 2
     push 5   
       push    6      
 push 7
+=======
+
+
+push 1
+push 0
+
+>>>>>>> c0e73d56c7c789b9199c515958a7f9e53f5fd2c5
 pall

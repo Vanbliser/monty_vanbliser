@@ -1,45 +1,59 @@
 #include "monty.h"
-bus_t bus = {NULL, NULL, NULL, 0};
+#include "swap.c"
 /**
 * main - monty code interpreter
 * @argc: number of arguments
 * @argv: monty file location
 * Return: 0 on success
 */
-int main(int argc, char *argv[])
+
+int main(int argc, char **argv)
 {
-	char *content;
 	FILE *file;
-	size_t size = 0;
-	ssize_t read_line = 1;
+	char *line = NULL, *opcode = NULL;
+	size_t len = 0;
 	stack_t *stack = NULL;
-	unsigned int counter = 0;
+	ssize_t nread;
+	unsigned int line_number = 0;
+	
+	instructionlist_t *instructionlist = NULL, *head;
+	
 
 	if (argc != 2)
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
+		monty_usage_error();
 	file = fopen(argv[1], "r");
-	bus.file = file;
-	if (!file)
+	if (file == NULL)
+		open_file_error(argv[1]);
+	init(&instructionlist);	/* initialize the instruction list */
+	head = instructionlist;
+	while ((nread = getline(&line, &len, file)) != -1)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		exit(EXIT_FAILURE);
-	}
-	while (read_line > 0)
-	{
-		content = NULL;
-		read_line = getline(&content, &size, file);
-		bus.content = content;
-		counter++;
-		if (read_line > 0)
+		line_number++;
+		reduce_multispaces_to_one(&line, &len);
+		trim_line(&line, &len);
+		opcode = strtok(line, " ");
+		if (opcode)
+			while (instructionlist)
+			{
+				if (strcmp(opcode, instructionlist->instruction.opcode) == 0)
+				{
+					instructionlist->instruction.f(&stack, line_number);
+					break;
+				}
+				instructionlist = instructionlist->next;
+				if (instructionlist == NULL)
+					unknown_instruction_error(line_number, opcode, stack);
+			}
+		else if (strcmp(opcode, "rotr") == 0)
 		{
-			execute(content, &stack, counter, file);
+    			rotr(&stack, line_number);
 		}
-		free(content);
+
+		instructionlist = head;
 	}
-	free_stack(stack);
+	
 	fclose(file);
-return (0);
+	free_stack(stack);
+	destroy_init(instructionlist);
+	exit(EXIT_SUCCESS);
 }

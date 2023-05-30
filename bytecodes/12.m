@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 push 1
 push 2
 push 3
@@ -15,3 +16,10 @@ push 108
 push 111
 push 72
 pstr
+=======
+push 2147483647
+push -2147483648
+pall
+push 2147483648
+pall
+>>>>>>> c0e73d56c7c789b9199c515958a7f9e53f5fd2c5

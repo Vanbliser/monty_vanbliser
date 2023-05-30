@@ -4,12 +4,11 @@
 #define _GNU_SOURCE
 
 #include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <stdlib.h>
-#include <fcntl.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -55,25 +54,77 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-void f_push(stack_t **stack, unsigned int line_number);
-void f_pall(stack_t **stack, unsigned int line_number);
-void f_pint(stack_t **stack, unsigned int line_number);
-int execute(char *content, stack_t **head, unsigned int counter, FILE *file);
-void free_stack(stack_t *head);
-void f_pop(stack_t **stack, unsigned int line_number);
-void f_swap(stack_t **stack, unsigned int line_number);
-void f_add(stack_t **stack, unsigned int line_number);
-void f_nop(stack_t **stack, unsigned int line_number);
-void f_sub(stack_t **stack, unsigned int line_number);
-void f_div(stack_t **stack, unsigned int line_number);
-void f_mul(stack_t **stack, unsigned int line_number);
-void f_mod(stack_t **stack, unsigned int line_number);
-void f_pchar(stack_t **stack, unsigned int line_number);
-void f_pstr(stack_t **stack, unsigned int line_number);
-void f_rotl(stack_t **stack, unsigned int line_number);
-void f_rotr(stack_t **head, __attribute__((unused)) unsigned int counter);
-void addnode(stack_t **head, int n);
-void addqueue(stack_t **head, int n);
-void f_queue(stack_t **stack, unsigned int line_number);
-void f_stack(stack_t **stack, unsigned int line_number);
-#endif
+/**
+ * struct instructionlist_s - doubly linked list of instruction_t
+ * @instruction: the instruction
+ * @prev: previous instruction
+ * @next: next instruction
+ */
+typedef struct instructionlist_s
+{
+	instruction_t instruction;
+	struct instructionlist_s *next;
+	struct instructionlist_s *prev;
+} instructionlist_t;
+
+/**
+ * struct memlist - a list that keeps track of dynamically allocated memory
+ * @ptr: pointer to the allocated memory
+ * @next: the next memory in the list
+ * @prev: the previuos memory in the list
+ */
+typedef struct memlist
+{
+	void *ptr;
+	struct memlist *prev;
+	struct memlist *next;
+} memlist_t;
+
+/* Operations Function Prototypes */
+void push(stack_t **stack, unsigned int line_number);
+void pall(stack_t **stack, unsigned int line_number);
+void pop(stack_t **stack, unsigned int line_number);
+void pstr(stack_t **stack, unsigned int line_number);
+void rotl(stack_t **stack, unsigned int line_number);
+void rotr(stack_t **stack, unsigned int line_number);
+void sub(stack_t **stack, unsigned int line_number);
+void swap(stack_t **stack, unsigned int line_number);
+
+
+/* Helper Function Prototypes */
+
+/* free.c */
+void free_stack(stack_t *stack);
+void addtomemlist(memlist_t **head, void *ptr);
+void free_memlist(memlist_t *head);
+
+/* error_handling.c */
+void monty_usage_error(void);
+void open_file_error(char *file);
+void malloc_failed_error(memlist_t *memlist);
+void unknown_instruction_error(unsigned int line_num, char *i, stack_t *stack);
+
+/* line_formatting.c */
+void reduce_multispaces_to_one(char **line, size_t *len);
+void trim_line(char **line, size_t *len);
+
+/* push.c */
+void push_error_handler(stack_t **stack, unsigned int line_number);
+void addtostack(stack_t **head, const int n);
+
+/*instructions*/
+instruction_t push_instruction(void);
+instruction_t pop_instruction(void);
+instruction_t pstr_instruction(void);
+instruction_t pall_instruction(void);
+instruction_t rotl_instruction(void);
+instruction_t sub_instruction(void);
+instruction_t swap_instruction(void)
+
+
+/* init.c */
+void init(instructionlist_t **inst_list);
+void addinstruction(instructionlist_t **inst_list, instruction_t inst);
+void destroy_init(instructionlist_t *head);
+
+#endif /* MONTY_H */
