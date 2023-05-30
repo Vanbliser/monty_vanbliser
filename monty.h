@@ -106,6 +106,12 @@ void rotl(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
 void sub(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
+void mul(stack_t **stack, unsigned int line_number);
+void pint(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
+void pchar(stack_t **stack, unsigned int line_number);
+void _div(stack_t **stack, unsigned int line_number);
 
 
 /* Helper Function Prototypes */
@@ -141,6 +147,12 @@ instruction_t pall_instruction(void);
 instruction_t rotl_instruction(void);
 instruction_t sub_instruction(void);
 instruction_t swap_instruction(void);
+instruction_t add_instruction(void);
+instruction_t _div_instruction(void);
+instruction_t mul_instruction(void);
+instruction_t nop_instruction(void);
+instruction_t pchar_instruction(void);
+instruction_t pint_instruction(void);
 
 /* init.c */
 void init(instructionlist_t **inst_list);

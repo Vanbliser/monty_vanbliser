@@ -44,6 +44,8 @@ void addtostack(stack_t **head, const int n)
 	new->n = n;
 	new->prev = NULL;
 	new->next = *head;
+	if (*head)
+		(*head)->prev = new;
 	*head = new;
 }
 

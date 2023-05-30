@@ -8,8 +8,13 @@
 void pop(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp;
+
 	if (*stack == NULL)
-		pop_error_handler(line_number);
+	{
+		fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
+		cleanup();
+		exit(EXIT_FAILURE);
+	}
 
 	tmp = *stack;
 	*stack = (*stack)->next;
@@ -19,14 +24,11 @@ void pop(stack_t **stack, unsigned int line_number)
 	free(tmp);
 }
 
-void pop_error_handler(unsigned int line_number)
-{
-	fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
-	cleanup();
-	exit(EXIT_FAILURE);
-}
-
-/*pop instruction*/
+/**
+ * pop_instruction - pop instruction_t
+ *
+ * Return: pop instruction_t
+ */
 instruction_t pop_instruction(void)
 {
 	instruction_t pop_inst;

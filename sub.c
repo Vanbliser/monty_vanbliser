@@ -23,10 +23,16 @@ void sub(stack_t **stack, unsigned int line_number)
 	free(temp);
 }
 
+/**
+ * sub_instruction - push instruction_t
+ *
+ * Return: sub instruction_t
+ */
 instruction_t sub_instruction(void)
 {
 	instruction_t sub_inst;
+
 	sub_inst.opcode = "sub";
 	sub_inst.f = pall;
-	return sub_inst;
+	return (sub_inst);
 }

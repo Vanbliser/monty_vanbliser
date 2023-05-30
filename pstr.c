@@ -8,21 +8,24 @@
 void pstr(stack_t **stack, unsigned int __attribute__((unused)) line_number)
 {
 	stack_t *current;
-	current = *stack;
 
-	(void)line_number;
+	current = *stack;
 
 	while (current && current->n >= 0 && current->n <= 127)
 	{
-		/*if (current->n == '\0')*/  
-		printf("%c", current->n);
+		/*if (current->n == '\0')*/
+		fprintf(stdout, "%c", current->n);
 		current = current->next;
 	}
 
 	printf("\n");
 }
 
-/*pstr instruction*/
+/**
+ * pstr_instruction - pstr instruction_t
+ *
+ * Return: pstr instruction_t
+ */
 instruction_t pstr_instruction(void)
 {
 	instruction_t pstr_inst;
