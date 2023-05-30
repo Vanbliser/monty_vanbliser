@@ -28,28 +28,6 @@ void push(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * addtostack - a fuction the adds to stack
- * @head: double pointer to the stack
- * @n: integer to add to stack
- */
-void addtostack(stack_t **head, const int n)
-{
-	stack_t *new;
-
-	if (head == NULL)
-		exit(EXIT_FAILURE);
-	new = malloc(sizeof(stack_t));
-	if (new == NULL)
-		malloc_failed_error(NULL);
-	new->n = n;
-	new->prev = NULL;
-	new->next = *head;
-	if (*head)
-		(*head)->prev = new;
-	*head = new;
-}
-
-/**
  * push_error_handler - push error hander function
  * @line_number: line number of the operation
  */

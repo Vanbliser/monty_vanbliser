@@ -7,20 +7,17 @@
  */
 void sub(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp;
-
-	if (*stack == NULL || (*stack)->next == NULL)
+	if (*stack && (*stack)->next)
+	{
+		(*stack)->next->n -= (*stack)->n;
+		pop(stack, line_number);/* Remove the top element*/
+	}
+	else
 	{
 		fprintf(stderr, "L%u: can't sub, stack too short\n", line_number);
-		free_stack(*stack);
+		cleanup();
 		exit(EXIT_FAILURE);
 	}
-
-	temp = *stack;
-	(*stack)->next->n -= (*stack)->n;
-	*stack = (*stack)->next;
-	(*stack)->prev = NULL;
-	free(temp);
 }
 
 /**
@@ -33,6 +30,6 @@ instruction_t sub_instruction(void)
 	instruction_t sub_inst;
 
 	sub_inst.opcode = "sub";
-	sub_inst.f = pall;
+	sub_inst.f = sub;
 	return (sub_inst);
 }

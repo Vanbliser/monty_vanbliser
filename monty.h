@@ -132,9 +132,14 @@ void cleanup(void);
 void reduce_multispaces_to_one(char **line, size_t *len);
 void trim_line(char **line, size_t *len);
 
+/* stack_operations.c */
+size_t lenofstack(stack_t *stack);
+void addtostack(stack_t **head, const int n);
+stack_t *getelement(stack_t *stack, size_t index);
+int *getstackint(stack_t *stack, size_t index);
+
 /* push.c */
 void push_error_handler(unsigned int line_number);
-void addtostack(stack_t **head, const int n);
 
 /* pop.c */
 void pop_error_handler(unsigned int line_number);
