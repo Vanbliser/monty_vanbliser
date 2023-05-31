@@ -113,7 +113,8 @@ void nop(stack_t **stack, unsigned int line_number);
 void pchar(stack_t **stack, unsigned int line_number);
 void _div(stack_t **stack, unsigned int line_number);
 void mod(stack_t **stack, unsigned int line_number);
-
+void stack(stack_t **stack, unsigned int line_number);
+void queue(stack_t **stack, unsigned int line_number);
 
 /* Helper Function Prototypes */
 
@@ -160,6 +161,8 @@ instruction_t nop_instruction(void);
 instruction_t pchar_instruction(void);
 instruction_t pint_instruction(void);
 instruction_t mod_instruction(void);
+instruction_t stack_instruction(void);
+instruction_t queue_instruction(void);
 
 /* init.c */
 void init(instructionlist_t **inst_list);
