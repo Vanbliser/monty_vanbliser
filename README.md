@@ -217,15 +217,31 @@ The following are mandatory project:
                 The top of the stack becomes the front of the queue
                 The front of the queue becomes the top of the stack
 
-16 - Write a Brainfck script prints "School" followed by a new line
+16 - bf/1000-school.bf:
+
+		Write a Brainfck script prints "School" followed by a new line
 
         All your Brainf*ck files should be stored inside the bf sub directory
         You can install the bf interpreter to test your code: sudo apt-get install bf
 
 		Read: [Brainf*ck](https://en.wikipedia.org/wiki/Brainfuck)
 
-17 - Adds two digits given by the user
+17 - bf/1001-add.bf
 
-18 - Multiply two digits given by the user
+		Adds two digits given by the user
 
-19 - Multiply two digits given by the user
+		Read the two digits from stdin, add them, and print the result
+		The total of the two digits with be one digit-long (<10)
+
+18 - bf/1002-mul.bf
+
+		Multiply two digits given by the user
+
+		Read the two digits from stdin, multiply them, and print the result
+		The result of the multiplication will be one digit-long (<10)
+
+19 - bf/1003-mul.bf
+
+		Multiply two digits given by the user
+
+		Read the two digits from stdin, multiply them, and print the result, followed by a new line
