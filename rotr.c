@@ -27,3 +27,17 @@ void rotr(stack_t **stack, unsigned int line_number)
 	(*stack)->prev = temp;
 	*stack = temp;
 }
+
+/**
+ * rotr_instruction - rotl instruction_t
+ *
+ * Return: rotr instruction_t
+ */
+instruction_t rotr_instruction(void)
+{
+	instruction_t rotr_inst;
+
+	rotr_inst.opcode = "rotr";
+	rotr_inst.f = rotr;
+	return (rotr_inst);
+}
