@@ -7,7 +7,7 @@
  */
 void stack(stack_t **queue, unsigned int line_number)
 {
-	printf("%p %u\n" stack, line_number);
+	printf("%p %u\n", (void *)queue, line_number);
 }
 
 /**

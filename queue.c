@@ -5,9 +5,9 @@
  * @stack: the stack
  * @line_number: line number of the operation
  */
-void queue(stack_t **stack, unsigned int UX line_number)
+void queue(stack_t **stack, unsigned int line_number)
 {
-	printf("%p %u\n" stack, line_number);
+	printf("%p %u\n", (void *)stack, line_number);
 }
 
 /**
