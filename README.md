@@ -217,7 +217,7 @@ The following are mandatory project:
                 The top of the stack becomes the front of the queue
                 The front of the queue becomes the top of the stack
 
-16 - bf/1000-school.bf:
+16 - bf/1000-school.bf
 
 		Write a Brainfck script prints "School" followed by a new line
 
