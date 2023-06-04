@@ -42,6 +42,43 @@ void addtostack(stack_t **head, const int n)
 }
 
 /**
+ * addtostack_end - a function that adds to end of stack_t.
+ * @head: double pointer to the stack
+ * @n: integer value to add to stack
+ */
+void addtostack_end(stack_t **head, const int n)
+{
+	stack_t *new;
+	stack_t *current = *head;
+
+	if (head == NULL)
+		exit(EXIT_FAILURE);
+	new = malloc(sizeof(stack_t));
+	if (new == NULL)
+		malloc_failed_error(NULL);
+	new->n = n;
+	new->next = NULL;
+	if (current == NULL)
+	{
+		*head = new;
+		return;
+	}
+	else
+	{
+		while (current)
+		{
+			if (current->next == NULL)
+			{
+				current->next = new;
+				new->prev = current;
+				break;
+			}
+			current = current->next;
+		}
+	}
+}
+
+/**
  * getelement - returns the stack at index
  * @stack: the stack
  * @index: the index

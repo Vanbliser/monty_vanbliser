@@ -82,6 +82,9 @@ typedef struct cleanup
 
 extern cleanup_t c;
 
+/* create a function pointer type */
+typedef void (*data_structure)(stack_t **head, const int c);
+
 /* Operations Function Prototypes */
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
@@ -121,6 +124,7 @@ void trim_line(char **line, size_t *len);
 
 /* stack_operations.c */
 size_t lenofstack(stack_t *stack);
+void addtostack_end(stack_t **head, const int n);
 void addtostack(stack_t **head, const int n);
 stack_t *getelement(stack_t *stack, size_t index);
 int *getstackint(stack_t *stack, size_t index);
@@ -130,6 +134,9 @@ void push_error_handler(unsigned int line_number);
 
 /* pop.c */
 void pop_error_handler(unsigned int line_number);
+
+/* select_data_structure.c */
+unsigned int select_data_structure(unsigned int *flag);
 
 /*instructions*/
 instruction_t push_instruction(void);

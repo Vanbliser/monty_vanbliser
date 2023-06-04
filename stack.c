@@ -5,9 +5,12 @@
  * @queue: the queue
  * @line_number: line number of the operation
  */
-void stack(stack_t **queue, unsigned int line_number)
+void stack(stack_t __attribute__((unused)) **queue,
+		__attribute__((unused)) unsigned int line_number)
 {
-	printf("%p %u\n", (void *)queue, line_number);
+	unsigned int f = 1;
+
+	(void)select_data_structure(&f);
 }
 
 /**

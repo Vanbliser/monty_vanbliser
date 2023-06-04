@@ -9,6 +9,7 @@ void push(stack_t **stack, unsigned int line_number)
 {
 	long int s;
 	char *endptr = NULL, *value;
+	data_structure data_struct[] = {addtostack_end, addtostack};
 
 	value = strtok(NULL, " ");
 	if (!value)
@@ -24,7 +25,7 @@ void push(stack_t **stack, unsigned int line_number)
 	if (!((s >= INT_MIN) && (s <= INT_MAX)))
 		push_error_handler(line_number);
 
-	addtostack(stack, atoi(value));
+	data_struct[select_data_structure(NULL)](stack, atoi(value));
 }
 
 /**
