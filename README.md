@@ -225,5 +225,7 @@ The following are mandatory project:
 		Read: [Brainf*ck](https://en.wikipedia.org/wiki/Brainfuck)
 
 17 - Adds two digits given by the user
+
 18 - Multiply two digits given by the user
+
 19 - Multiply two digits given by the user
