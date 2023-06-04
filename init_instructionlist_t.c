@@ -11,6 +11,7 @@ void init(instructionlist_t **inst_list)
 	addinstruction(inst_list, pop_instruction());
 	addinstruction(inst_list, pstr_instruction());
 	addinstruction(inst_list, rotl_instruction());
+	addinstruction(inst_list, rotr_instruction());
 	addinstruction(inst_list, sub_instruction());
 	addinstruction(inst_list, swap_instruction());
 	addinstruction(inst_list, add_instruction());

@@ -137,6 +137,7 @@ instruction_t pop_instruction(void);
 instruction_t pstr_instruction(void);
 instruction_t pall_instruction(void);
 instruction_t rotl_instruction(void);
+instruction_t rotr_instruction(void);
 instruction_t sub_instruction(void);
 instruction_t swap_instruction(void);
 instruction_t add_instruction(void);
