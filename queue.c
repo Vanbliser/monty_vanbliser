@@ -1,14 +1,13 @@
 #include "monty.h"
 
-#define UX __attribute__((unused))
-
 /**
  * queue - Function to convert a stack to a queue
  * @stack: the stack
  * @line_number: line number of the operation
  */
-void queue(stack_t UX **stack, unsigned int UX line_number)
+void queue(stack_t **stack, unsigned int UX line_number)
 {
+	printf("%p %u\n" stack, line_number);
 }
 
 /**
