@@ -8,17 +8,22 @@
 void pstr(stack_t **stack, unsigned int __attribute__((unused)) line_number)
 {
 	stack_t *current;
+	char newline = '\n';
 
 	current = *stack;
-
-	while (current && current->n >= 0 && current->n <= 127)
+	if (lenofstack(current) == 0)
 	{
-		/*if (current->n == '\0')*/
-		fprintf(stdout, "%c", current->n);
-		current = current->next;
+		fprintf(stdout, "%c", newline);
 	}
-
-	printf("\n");
+	else
+	{
+		while (current && current->n > 0 && current->n <= 127)
+		{
+			fprintf(stdout, "%c", current->n);
+			current = current->next;
+		}
+		fprintf(stdout, "%c", newline);
+	}
 }
 
 /**

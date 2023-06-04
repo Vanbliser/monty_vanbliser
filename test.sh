@@ -68,6 +68,10 @@ echo -e "filename=>bytecodes/15.m"
 (./monty bytecodes/15.m) | cat -e
 echo -e "=============\n"
 
+echo -e "filename=>bytecodes/31.m"
+(./monty bytecodes/31.m) | cat -e
+echo -e "=============\n"
+
 echo -e "filename=>bytecodes/2invalid_inst"
 (./monty bytecodes/2invalid_inst) | cat -e
 echo -e "=============\n"
